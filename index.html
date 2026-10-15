@@ -214,6 +214,83 @@ function copyRef(){ navigator.clipboard.writeText(document.getElementById('refLi
 function editRates(){ let n=prompt('1$ = ? coins',cpd); if(n){cpd=parseFloat(n); localStorage.setItem('cpd',cpd); cps=cpd/spd; document.getElementById('rCpd').innerText=cpd; updateBal();}}
 function addFunds(){balance+=100; saveBal();}
 updateBal();
+  <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Mini App</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      background-color: #121212;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    .card {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+    .admin-panel {
+      background: #2b1b17;
+      border: 1px solid #ff5555;
+      display: none; /* Hidden by default */
+    }
+    button {
+      background: #0088cc;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .admin-btn {
+      background: #e53935;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- REGULAR USER PANEL -->
+  <div class="card">
+    <h2 id="user-greeting">Welcome! 👋</h2>
+    <p>This is the customer view.</p>
+    <button onclick="Telegram.WebApp.close()">Close App</button>
+  </div>
+
+  <!-- ADMIN ONLY PANEL -->
+  <div class="card admin-panel" id="admin-section">
+    <h2 style="color: #ff5555;">👑 Admin Panel</h2>
+    <p>Only you (the admin) can see this section!</p>
+    <button class="admin-btn" onclick="alert('Admin Action Performed!')">Manage Orders / Products</button>
+  </div>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    // 1. REPLACE THIS WITH YOUR NUMERIC TELEGRAM USER ID
+    const ADMIN_TELEGRAM_ID = 123456789; 
+
+    // Get current user details from Telegram
+    if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+      const user = tg.initDataUnsafe.user;
+      document.getElementById('user-greeting').innerText = "Hello, " + user.first_name + "! 👋";
+
+      // Check if current user is Admin
+      if (user.id === ADMIN_TELEGRAM_ID) {
+        document.getElementById('admin-section').style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
 </script>
 </body>
 </html>
